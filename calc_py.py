@@ -14,6 +14,8 @@ my_stock = [
     ('001133', 4176.87)
 ]
 
+# my_stock = [('502003',11029.4), ('000962',10072.6), ('001592',5655.3), ('002974',4015.5)]
+
 # a = requests.get('http://fundgz.1234567.com.cn/js/502003.js?rt=1551342960000&tdsourcetag=s_pctim_aiomsg')
 
 new_stock = []
@@ -29,7 +31,9 @@ for number, money in my_stock:
     income = money * float(rst_dict['gszzl']) / 100
     total_income += income
     new_stock.append((number, money + income))
+    print rst_dict['name'], '\t', income, '\t', rst_dict['gszzl']
 
-print new_stock
+# print new_stock
 print '----'
-print '今日收益:' + str(total_income)
+print '靠靠:' + str(total_income)
+
