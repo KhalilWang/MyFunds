@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import requests
 import time
 import json
@@ -31,9 +32,9 @@ for number, money in my_stock:
     income = money * float(rst_dict['gszzl']) / 100
     total_income += income
     new_stock.append((number, money + income))
-    print rst_dict['name'], '\t', income, '\t', rst_dict['gszzl']
+    print rst_dict['name'] + '-' + str(money), '\nincome:', income, '\trate:', rst_dict['gszzl']
 
 # print new_stock
 print '----'
-print '¿¿¿¿:' + str(total_income)
+print 'total_income:' + str(total_income)
 
