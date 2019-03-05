@@ -34,6 +34,10 @@ for number, money in my_stock:
     new_stock.append((number, money + income))
     print rst_dict['name'] + '-' + str(money), '\nincome:', income, '\trate:', rst_dict['gszzl']
 
+with open('newstock.txt', 'a+') as f:
+    f.write('\n' + str(datetime.datetime.now()) + '\n')
+    f.write(str(new_stock))
+
 # print new_stock
 print '----'
 print 'total_income:' + str(total_income)
