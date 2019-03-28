@@ -74,22 +74,32 @@ def get_fund_info(fundcode):
             return res['data']
     return None
 
-def Main():
+def Main(is_need_sort=False):
     today_total_interest = 0.0
+    res = []
+    print('---------------------------------')
     for fundcode, share in fund_pool.items():
         fundinfo = get_fund_info(fundcode)
         fundva = get_va_info(fundcode)
-        # if fundinfo and fundva:
         # 当前市值 = 昨日单位净值 * 持仓份额
         mv = float(fundinfo['fund_derived']['unit_nav']) * share
-        print(fundcode, fundinfo['fd_name'], '当前市值:', format(mv, '.2f'))
         # 今日预估收益 = 市值 * 今日预估涨幅 / 100%
         va = fundva['percentage'] * mv / 100
-        print('今日预估收益:', format(va, '.2f'))
         today_total_interest += va
+        res.append((fundcode, fundinfo['fd_name'], mv, va, fundva['percentage']))
+        if not is_need_sort:
+            print(fundcode, fundinfo['fd_name'], '当前市值:', format(mv, '.2f'), '今日涨跌幅', format(fundva['percentage'], '.2f') + '%')
+            print('今日预估收益:', format(va, '.2f'))
+    if is_need_sort:
+        # 按照涨跌幅排序
+        res = sorted(res, key=lambda x: x[-1])
+        res.reverse()
+        for fundcode, fundname, mv, va, percentage in res:
+            print(fundcode, fundname, '当前市值:', format(mv, '.2f'), '今日涨跌幅', format(percentage, '.2f') + '%')
+            print('今日预估收益:', format(va, '.2f'))
     print('---------------------------------')
-    print('今日累计收益:', today_total_interest)
+    print('今日累计收益:', format(today_total_interest, '.2f'))
 
 
 if __name__ == '__main__':
-    Main()
+    Main(is_need_sort=True)
